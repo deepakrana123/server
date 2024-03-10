@@ -42,6 +42,7 @@ functions:
     handler: app/handler.Cart
     events:
       - httpApi:
+
           path: /cart
           method: post
       - httpApi:
@@ -51,17 +52,17 @@ functions:
           path: /cart
           method: get
   payment:
-    handler:app/handler.Payment
+    handler: app/handler.Payment
     events:
       - httpApi:
-        path:/payment
-        method:post
+          path: /payment
+          method: post
       - httpApi:
-        path:/payment
-        method:put
+          path: /payment
+          method: put
       - httpApi:
-        path:/payment
-        method:get
+          path: /payment
+          method: get
 
 plugins:
   - serverless-offline
