@@ -18,6 +18,7 @@ class UserService {
     }
     CreateUser(event) {
         return __awaiter(this, void 0, void 0, function* () {
+            const body = JSON.parse(JSON.stringify(event.body));
             return (0, response_1.SuccessResponse)({ message: "user created succuesfully" });
         });
     }

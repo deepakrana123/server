@@ -1,19 +1,23 @@
-import { APIGatewayProxyEvent } from "aws-lambda";
+import { APIGatewayProxyEvent, APIGatewayProxyEventV2 } from "aws-lambda";
 import { UserService } from "app/service/userService";
 import { ErrorResponse } from "app/utility/response";
-const service = new UserService()
-export const Signup = async (event:APIGatewayProxyEvent) => {
-    console.log(event,"event")
+import middy from "@middy/core";
+import bodyParser from "@middy/http-json-body-parser";
+import {container} from "tsyringe"
+const service = container.resolve(UserService)
+export const Signup = middy((event:APIGatewayProxyEventV2) => {
     return service.CreateUser(event)
-};
-export const Login = async (event:APIGatewayProxyEvent) => {
+}).use(bodyParser());
+export const Login = async (event:APIGatewayProxyEventV2) => {
   return service.UserLogin(event)
 };
-export const Verify = async (event:APIGatewayProxyEvent) => {
+export const Verify = async (event:APIGatewayProxyEventV2) => {
   return service.UserVerify(event)
 };
-
-export const Profile=async(event:APIGatewayProxyEvent)=>{
+export const Need =async(event:APIGatewayProxyEventV2)=>{
+    console.log(event.requestContext.http,JSON.stringify(event.requestContext.http, null, 2))
+}
+export const Profile=async(event:APIGatewayProxyEventV2)=>{
     const httpMethod=event.requestContext.http.method.toLowerCase()
     if(httpMethod==='post'){
         return service.UserCreateProfile(event)
@@ -28,7 +32,7 @@ export const Profile=async(event:APIGatewayProxyEvent)=>{
         return ErrorResponse(404,"requested method is not correct")
     }
 }
-export const Cart=async(event:APIGatewayProxyEvent)=>{
+export const Cart=async(event:APIGatewayProxyEventV2)=>{
     const httpMethod=event.requestContext.http.method.toLowerCase()
     if(httpMethod==='post'){
         return service.UserCreateCart(event)
@@ -43,7 +47,7 @@ export const Cart=async(event:APIGatewayProxyEvent)=>{
         return ErrorResponse(404,"requested method is not correct")
     }
 }
-export const Payment=async(event:APIGatewayProxyEvent)=>{
+export const Payment=async(event:APIGatewayProxyEventV2)=>{
     const httpMethod=event.requestContext.http.method.toLowerCase()
     if(httpMethod==='post'){
         return service.UserCreatePaymentMethod(event)
