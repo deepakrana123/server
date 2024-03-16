@@ -36,8 +36,7 @@ export const ErrorResponse = (code = 1000, error: unknown) => {
     const errormessage =
       errorObject[Object.keys(errorObject)[0]] || "Error Occured";
     return formatResponse(code, errormessage, []);
-  }
-  else{
-    return formatResponse(code ,   `error:${error}`,[])
+  } else {
+    return formatResponse(code, `error:${error}`, []);
   }
 };
