@@ -11,6 +11,7 @@ export class UserService {
   }
   async CreateUser(event:APIGatewayProxyEventV2) {
     const body=JSON.parse(JSON.stringify(event.body))
+    await this.repository.CreateUserOperation()
     return SuccessResponse({ message: "user created succuesfully" });
   }
   async UserLogin(event:APIGatewayProxyEventV2) {
